@@ -57,11 +57,21 @@ def calculate_demographic_data(print_data=True):
 
     # What country has the highest percentage of people that earn >50K?
     
-    highest_earning_country = None
-    highest_earning_country_percentage = None
+    country_count = df["native-country"].value_counts()
+    country_riches = df[df["salary"] == ">50K"]["native-country"].value_counts()
+
+    # idxmax() method gives the necessary highest percentage
+    # it gets the index with the highest value
+    
+    highest_earning_country = (country_riches / country_count * 100).idxmax()
+    # this one's pretty obvious
+    highest_earning_country_percentage = round((country_riches / country_count * 100).max(), 1)
 
     # Identify the most popular occupation for those who earn >50K in India.
-    top_IN_occupation = None
+    indian_rich = df[(df["native-country"] == "India") & (df["salary"] == ">50K")]
+
+    # print("here", indian_rich["occupation"].value_counts().idxmax())
+    top_IN_occupation = indian_rich["occupation"].value_counts().idxmax()
 
     # DO NOT MODIFY BELOW THIS LINE
 
